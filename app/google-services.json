@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "160130794474-nod20hmndgeukipd04cr2td2egc8q8mk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fithub",
+            "certificate_hash": "8626c03860c361ba29163d8f2167c757115113a5"
+          }
+        },
+        {
           "client_id": "160130794474-1dee1kcjj20hlpinutnofiqlo1g6ih0j.apps.googleusercontent.com",
           "client_type": 3
         }
