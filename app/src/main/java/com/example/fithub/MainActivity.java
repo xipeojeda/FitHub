@@ -10,12 +10,14 @@ import android.widget.Button;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.fitness.Fitness;
 
+import static com.google.android.gms.fitness.Fitness.SCOPE_ACTIVITY_READ;
+import static com.google.android.gms.fitness.Fitness.SCOPE_ACTIVITY_READ_WRITE;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-
+    private GoogleApiClient mClient;
     Button registerBtn, loginBtn;
 
 
@@ -33,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
                 .addApi(Fitness.HISTORY_API)
                 .addApi(Fitness.RECORDING_API)
                 //Specify Scopes of access
-                .addScope(FitnessScopes.SCOPE_ACTIVITY_READ)
-                .addScope(FitnessScopes.SCOPE_BODY_READ_WRITE)
                 //provide callbacks
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
+                .addScope(SCOPE_ACTIVITY_READ)
+                .addScope(SCOPE_ACTIVITY_READ_WRITE)
+                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) this)
+                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) this)
                 .build();
 
 
