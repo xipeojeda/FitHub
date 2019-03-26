@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private GoogleApiClient mClient;
-    Button registerBtn, loginBtn;
 
 
     @Override
