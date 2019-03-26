@@ -5,6 +5,8 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.fitness.Fitness;
+import static com.google.android.gms.fitness.Fitness.SCOPE_ACTIVITY_READ;
+import static com.google.android.gms.fitness.Fitness.SCOPE_ACTIVITY_READ_WRITE;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
                 .addApi(Fitness.RECORDING_API)
                 //Specify Scopes of access
                 //provide callbacks
-                .addScope(Fitness.SCOPE_ACTIVITY_READ)
-                .addScope(Fitness.SCOPE_ACTIVITY_READ_WRITE)
+                .addScope(SCOPE_ACTIVITY_READ)
+                .addScope(SCOPE_ACTIVITY_READ_WRITE)
                 .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) this)
                 .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) this)
                 .build();
