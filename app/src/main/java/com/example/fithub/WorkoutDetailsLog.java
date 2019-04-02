@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 public class WorkoutDetailsLog extends AppCompatActivity {
 
     TextView workdat, worktype, worktime;
+    private Button logger;
+
 
 
 
@@ -31,13 +34,15 @@ public class WorkoutDetailsLog extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details_log);
-        Button logger = (Button) findViewById(R.id.logBtn);
+        logger = (Button) findViewById(R.id.logBtn);
         workdat =  (TextView) findViewById(R.id.date);
         worktype =  (TextView) findViewById(R.id.type);
         worktime =  (TextView) findViewById(R.id.time);
 
+
+
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = db.getReference("Workouts");
+        final DatabaseReference myRef = db.getReference();
         //final DatabaseReference childRef = myRef.child("Workouts");
         final String workoutDay = workdat.getText().toString();
         myRef.addValueEventListener(new ValueEventListener() {
@@ -45,7 +50,7 @@ public class WorkoutDetailsLog extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
+                workout value = dataSnapshot.getValue(workout.class);
                 Log.d("Val", "Value is: " + value);
             }
 
@@ -59,7 +64,8 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         logger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRef.child("workouts").child(workoutDay).setValue(setLog());
+                String child = workdat.getText().toString();
+                myRef.child(child).setValue(setLog());
             }
         });
 

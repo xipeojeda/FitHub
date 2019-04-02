@@ -3,6 +3,9 @@ package com.example.fithub;
 public class workout {
         private String date, type, time;
 
+        public workout()
+        {}
+
         public workout(String date,String type,String time)
         {
             this.date = date;
