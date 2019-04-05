@@ -1,18 +1,12 @@
 package com.example.fithub;
 
-import android.content.Intent;
-import android.nfc.Tag;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class WorkoutDetailsLog extends AppCompatActivity {
 
-    TextView workdat, worktype, worktime;
+    TextView workdat, worktype, wExercise, workReps;
     private Button logger;
 
 
@@ -35,9 +29,10 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details_log);
         logger = (Button) findViewById(R.id.logBtn);
-        workdat =  (TextView) findViewById(R.id.date);
+        workdat =  (TextView) findViewById(R.id.etDate);
         worktype =  (TextView) findViewById(R.id.type);
-        worktime =  (TextView) findViewById(R.id.time);
+        wExercise =  (TextView) findViewById(R.id.exercise);
+        workReps = (TextView) findViewById(R.id.reps);
 
 
 
@@ -65,7 +60,7 @@ public class WorkoutDetailsLog extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String child = workdat.getText().toString();
-                myRef.child(child).setValue(setLog());
+                myRef.child("Workouts").child(child).setValue(setLog());
             }
         });
 
@@ -77,11 +72,15 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         String d;
         String type;
         String time;
+        CharSequence r = workReps.getText();
+        int repetitions;
+
 
         d = workdat.getText().toString();
         type = worktype.getText().toString();
-        time = worktime.getText().toString();
-        workout w = new workout(d,type,time);
+        time = wExercise.getText().toString();
+        repetitions = Integer.parseInt(r.toString());
+        workout w = new workout(d,type,time,repetitions);
         return w;
 
 
