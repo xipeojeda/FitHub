@@ -34,14 +34,6 @@ public class WeightLogger extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference myRef;
 
-
-
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,16 +48,6 @@ public class WeightLogger extends AppCompatActivity {
 
         series = new LineGraphSeries();
         graphView.addSeries(series);
-
-
-
-
-
-
-
-
-
-
 
         log.setOnClickListener(new View.OnClickListener() {
             @Override
