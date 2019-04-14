@@ -87,8 +87,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUserAccount() {
-        progressBar.setVisibility(View.VISIBLE);
-
         String email, password;
         email = emailTV.getText().toString();
         password = passwordTV.getText().toString();
@@ -132,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    /*@Override
+    @Override
     protected void onStart()
     {
         super.onStart();
@@ -141,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }
-    }*/
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
