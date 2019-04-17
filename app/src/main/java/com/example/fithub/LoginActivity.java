@@ -87,8 +87,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUserAccount() {
-        progressBar.setVisibility(View.VISIBLE);
-
         String email, password;
         email = emailTV.getText().toString();
         password = passwordTV.getText().toString();
@@ -108,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility(View.GONE);
+                            finish();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
@@ -131,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         cAccount = findViewById(R.id.createAccount);
 
     }
-/* need to add signout method to have this function correctly
+
     @Override
     protected void onStart()
     {
@@ -141,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }
-    }*/
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -173,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
+                            finish();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }

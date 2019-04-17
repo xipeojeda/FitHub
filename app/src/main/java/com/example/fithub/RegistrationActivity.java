@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class RegistrationActivity extends AppCompatActivity {
     private EditText emailTV, passwordTV;
     private Button regButton;
-    private ProgressBar progressBar;
     private FirebaseAuth mAuth;
 
     @Override
@@ -43,7 +42,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registerNewUser()
     {
-        progressBar.setVisibility(View.VISIBLE);
         String email, password;
         email = emailTV.getText().toString();
         password = passwordTV.getText().toString();
@@ -63,12 +61,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Toast.makeText(getApplicationContext(),"Registration Successful, Verification Email Sent!!", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility((View.GONE));
-
-
                         if(!task.isSuccessful()){
                             Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility((View.GONE));
+
                         }else
                         {
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,6 +78,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                            finish();
                             Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
@@ -95,6 +91,5 @@ public class RegistrationActivity extends AppCompatActivity {
         emailTV = findViewById(R.id.email);
         passwordTV = findViewById(R.id.password);
         regButton = findViewById(R.id.register);
-        progressBar = findViewById(R.id.progressBar);
     }
 }
