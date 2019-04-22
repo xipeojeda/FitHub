@@ -1,6 +1,10 @@
 package com.example.fithub;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,19 +14,22 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import com.example.fithub.logger.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-//
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AccountActivity extends AppCompatActivity {
     public ActionBar toolbar;
     private FirebaseAuth mAuth;
+    private CircleImageView image;
     private Button logoutBtn;
     private Button deleteAcct;
+    private static final int SELECT_PICTURE = 0;
+    private static int RESULT_LOAD_IMAGE = 1;
     private static final String TAG = "Delete User: ";
     FirebaseUser user = mAuth.getInstance().getCurrentUser();
     @Override
@@ -46,6 +53,18 @@ public class AccountActivity extends AppCompatActivity {
                 Intent go2Login = new Intent(AccountActivity.this, LoginActivity.class);
                 startActivity(go2Login);
                 finish();
+            }
+        });
+
+        image.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(
+                        Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
 
@@ -85,6 +104,34 @@ public class AccountActivity extends AppCompatActivity {
     {
         logoutBtn = findViewById(R.id.logout);
         deleteAcct = findViewById(R.id.deleteAccount);
+        image = findViewById(R.id.profileImage);
+        image.setImageResource(R.drawable.defaultuser);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+
+            image.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+        }
+
+
     }
 
     //deletes user, on click of button
