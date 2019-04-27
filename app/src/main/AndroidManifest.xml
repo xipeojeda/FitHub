@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fithub">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,14 +16,18 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".RegistrationActivity"/>
-        <activity android:name=".ForgotPasswordActivity"/>
-        <activity android:name=".PedometerActivity"/>
+        <activity android:name=".WorkoutDetailsLog" />
+        <activity android:name=".GraphWorkout" />
+        <activity android:name=".WeightLogger"/>
+        <activity android:name=".AccountActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".PedometerActivity" />
     </application>
 
 </manifest>

@@ -49,4 +49,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create Account"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OR"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"/>
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 </LinearLayout>
