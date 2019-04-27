@@ -14,17 +14,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private GoogleApiClient mClient;
-    private ActionBar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //creating bottom navigation
-        toolbar = getSupportActionBar();
         BottomNavigationView nav = findViewById(R.id.navigation);
-        toolbar.setTitle("FitHub");
 
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

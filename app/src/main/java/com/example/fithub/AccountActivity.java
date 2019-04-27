@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountActivity extends AppCompatActivity {
-    public ActionBar toolbar;
     private FirebaseAuth mAuth;
     private CircleImageView image;
     private Button logoutBtn;
@@ -41,9 +40,7 @@ public class AccountActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //creating bottom navigation
-        toolbar = getSupportActionBar();
         BottomNavigationView nav = (BottomNavigationView) findViewById(R.id.navigation);
-        toolbar.setTitle("Account");
 
         //sign out user and bring to log in page
         logoutBtn.setOnClickListener(new View.OnClickListener() {

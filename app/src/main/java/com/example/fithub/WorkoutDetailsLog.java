@@ -23,7 +23,6 @@ public class WorkoutDetailsLog extends AppCompatActivity {
 
     TextView workdat, worktype, wExercise, workReps;
     private Button logger;
-    private ActionBar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +33,7 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         worktype =  (TextView) findViewById(R.id.type);
         wExercise =  (TextView) findViewById(R.id.exercise);
         workReps = (TextView) findViewById(R.id.reps);
-        toolbar = getSupportActionBar();
         BottomNavigationView nav = findViewById(R.id.navigation);
-        toolbar.setTitle("Log");
 
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
