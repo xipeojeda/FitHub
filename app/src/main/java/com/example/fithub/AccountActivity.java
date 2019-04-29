@@ -10,10 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+
 import com.example.fithub.logger.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,8 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private CircleImageView image;
-    private Button logoutBtn;
-    private Button deleteAcct;
+    private ImageButton dMenu;
     private static final int SELECT_PICTURE = 0;
     private static int RESULT_LOAD_IMAGE = 1;
     private static final String TAG = "Delete User: ";
@@ -42,17 +43,6 @@ public class AccountActivity extends AppCompatActivity {
         //creating bottom navigation
         BottomNavigationView nav = (BottomNavigationView) findViewById(R.id.navigation);
 
-        //sign out user and bring to log in page
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                Intent go2Login = new Intent(AccountActivity.this, LoginActivity.class);
-                startActivity(go2Login);
-                finish();
-            }
-        });
-
         image.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -65,13 +55,6 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        deleteAcct.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                deleteUser();
-            }
-        });
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -94,15 +77,44 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
+        dMenu.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                PopupMenu popup = new PopupMenu(getApplicationContext(), v);
+                popup.inflate(R.menu.account_options);
+                popup.show();
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId())
+                        {
+                            case R.id.logout:
+                                mAuth.signOut();
+                                Intent go2Login = new Intent(AccountActivity.this, LoginActivity.class);
+                                startActivity(go2Login);
+                                finish();
+                                return true;
+                            case R.id.delete:
+                                deleteUser();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+            }
+        });
     }
 
     //initializes user modifiable buttons/text
     public void initializeUI()
     {
-        logoutBtn = findViewById(R.id.logout);
-        deleteAcct = findViewById(R.id.deleteAccount);
+        dMenu = findViewById(R.id.dotMenu);
         image = findViewById(R.id.profileImage);
-        image.setImageResource(R.drawable.defaultuser);
+        image.setImageResource(R.drawable.fithub_logo);
     }
 
 

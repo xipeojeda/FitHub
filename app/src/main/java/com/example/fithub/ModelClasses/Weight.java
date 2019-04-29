@@ -1,4 +1,4 @@
-package com.example.fithub;
+package com.example.fithub.ModelClasses;
 
 public class Weight {
     private String date;
