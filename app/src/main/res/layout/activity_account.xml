@@ -6,55 +6,129 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AccountActivity">
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/frame_container"
+
+    <ImageView
+        android:id="@+id/header_cover_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:background="@color/cardview_dark_background" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".RegistrationActivity">
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="144dp"
-            android:layout_marginLeft="144dp"
-            android:layout_marginTop="108dp"
-            android:layout_marginEnd="139dp"
-            android:layout_marginRight="139dp"
-            tools:srcCompat="@tools:sample/avatars" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="163dp"
-            android:layout_marginLeft="163dp"
-            android:layout_marginTop="276dp"
-            android:text="Logout" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/deleteAccount"
-            android:layout_width="194dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="117dp"
-            android:layout_marginLeft="117dp"
-            android:layout_marginTop="367dp"
-            android:text="Delete Account" />
-    </RelativeLayout>
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:hint="Email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+
+            <ImageButton
+                android:id="@+id/dotMenu"
+                android:layout_width="51dp"
+                android:layout_height="59dp"
+                android:background="@color/cardview_dark_background"
+                android:onClick="showPopup"
+                android:src="@drawable/ic_overflow_holo_dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="106dp"
+                android:layout_height="144dp"
+                android:layout_marginTop="64dp"
+                app:civ_border_width="2dp"
+                android:src="@drawable/fithub_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="78dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="136dp"
+                android:layout_marginRight="136dp"
+                android:ems="10"
+                android:hint="Age"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+            <TextView
+                android:id="@+id/birthday"
+                android:layout_width="147dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:hint="MM/DD/YYYY"
+                android:inputType="date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="379dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="First Name"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email"
+                app:layout_constraintVertical_bias="0.054" />
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/age" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -67,6 +141,5 @@
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:menu="@menu/navigation" />
-
 
 </android.support.design.widget.CoordinatorLayout>

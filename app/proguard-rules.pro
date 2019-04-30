@@ -21,7 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 -keepattributes Signature
-
 -keepclasseswithmembers class com.example.fithub.**{
 *;
 }

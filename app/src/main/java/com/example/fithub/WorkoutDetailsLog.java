@@ -3,7 +3,6 @@ package com.example.fithub;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.fithub.ModelClasses.workout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +23,6 @@ public class WorkoutDetailsLog extends AppCompatActivity {
 
     TextView workdat, worktype, wExercise, workReps;
     private Button logger;
-    private ActionBar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +33,7 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         worktype =  (TextView) findViewById(R.id.type);
         wExercise =  (TextView) findViewById(R.id.exercise);
         workReps = (TextView) findViewById(R.id.reps);
-        toolbar = getSupportActionBar();
         BottomNavigationView nav = findViewById(R.id.navigation);
-        toolbar.setTitle("Log");
 
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
