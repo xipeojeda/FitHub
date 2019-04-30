@@ -114,6 +114,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/email"
                 app:layout_constraintVertical_bias="0.054" />
 
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/age" />
+
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
