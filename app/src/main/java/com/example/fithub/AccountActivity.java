@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.fithub.ModelClasses.UserInformation;
 import com.example.fithub.logger.Log;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +36,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.example.fithub.MainActivity;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -70,34 +73,49 @@ public class AccountActivity extends AppCompatActivity {
         storageReference = storage.getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("User Information");
 
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if(acct != null)
+        {
+            String personName = acct.getDisplayName();
+            String personEmail = acct.getEmail();
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
-                {
-                    UserInformation userInformation = postSnapshot.getValue(UserInformation.class);
+            uName.setText(personName);
+            email.setText(personEmail);
+        }
+        else
+        {
 
-                    //receiving information from UserInformation class
-                    String firstName = "Name: " + userInformation.getfName() + " "+userInformation.getlName();
-                    String emailAddress = "Email: " + userInformation.getEmailAddress();
-                    String birthday = "Birth Date: " + userInformation.getBirthDate();
-                    String userAge = "Age: " + userInformation.getAge();
+            //if user registered using email and password retrieve information from firebase database
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                    {
+                        UserInformation userInformation = postSnapshot.getValue(UserInformation.class);
 
-                    //setting textview to new values received from firebase database
-                    uName.setText(firstName);
-                    email.setText(emailAddress);
-                    dob.setText(birthday);
-                    age.setText(userAge);
+                        //receiving information from UserInformation class
+                        String firstName = "Name: " + userInformation.getfName() + " "+userInformation.getlName();
+                        String emailAddress = "Email: " + userInformation.getEmailAddress();
+                        String birthday = "Birth Date: " + userInformation.getBirthDate();
+                        String userAge = "Age: " + userInformation.getAge();
+
+                        //setting textview to new values received from firebase database
+                        uName.setText(firstName);
+                        email.setText(emailAddress);
+                        dob.setText(birthday);
+                        age.setText(userAge);
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            }
+            });
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
         image.setOnClickListener(new View.OnClickListener()

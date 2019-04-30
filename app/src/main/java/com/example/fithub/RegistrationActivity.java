@@ -48,8 +48,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registerNewUser()
     {
-        String email, password, fName, lName, dob;
-        int age;
+        final String email, password, fName, lName, dob;
+        final int age;
 
         email = emailTV.getText().toString().trim();
         password = passwordTV.getText().toString().trim();
@@ -85,9 +85,6 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         userInfo = new UserInformation(fName, lName, email, dob, age);
-        myRef = myRef.getRef().child("User");
-        myRef.setValue(userInfo);
-
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -97,8 +94,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         }else
                         {
+                            String user_id = mAuth.getCurrentUser().getUid();
+                            myRef = myRef.child(user_id);
+                            myRef.child("First Name").setValue(fName);
+                            myRef.child("Last Name").setValue(lName);
+                            myRef.child("Date of Birth").setValue(dob);
+                            myRef.child("Email").setValue(email);
+                            myRef.child("Age").setValue(age);
+
                             Toast.makeText(getApplicationContext(),"Registration Successful, Verification Email Sent!!", Toast.LENGTH_LONG).show();
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
