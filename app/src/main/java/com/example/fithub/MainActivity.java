@@ -1,12 +1,13 @@
 package com.example.fithub;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import com.google.android.gms.common.api.GoogleApiClient;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import com.google.android.gms.common.api.GoogleApiClient;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
                 switch(menuItem.getItemId())
                 {
                     case R.id.navigation_home:
+                        Intent pedo = new Intent(MainActivity.this, PedometerActivity.class);
+                        startActivity(pedo);
+                        overridePendingTransition(0,0);
                         break;
                     case R.id.navigation_log:
                         Intent log = new Intent(MainActivity.this, WorkoutDetailsLog.class);
