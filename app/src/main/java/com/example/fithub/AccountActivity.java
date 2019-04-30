@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,8 +37,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.example.fithub.MainActivity;
-
 import java.io.IOException;
 import java.util.UUID;
 
@@ -71,50 +70,57 @@ public class AccountActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("User Information");
 
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        if(acct != null)
+        String user_id = user.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("User Information").child(user_id);
+
+        for(UserInfo user: mAuth.getCurrentUser().getProviderData())
         {
-            String personName = acct.getDisplayName();
-            String personEmail = acct.getEmail();
+            if(user.getProviderId().equals("google.com"))
+            {
+                GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+                if(acct != null)
+                {
+                    String personName = "Name: " + acct.getDisplayName();
+                    String personEmail = "Email: " + acct.getEmail();
 
-            uName.setText(personName);
-            email.setText(personEmail);
-        }
-        else
-        {
-
-            //if user registered using email and password retrieve information from firebase database
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
-                    {
-                        UserInformation userInformation = postSnapshot.getValue(UserInformation.class);
-
-                        //receiving information from UserInformation class
-                        String firstName = "Name: " + userInformation.getfName() + " "+userInformation.getlName();
-                        String emailAddress = "Email: " + userInformation.getEmailAddress();
-                        String birthday = "Birth Date: " + userInformation.getBirthDate();
-                        String userAge = "Age: " + userInformation.getAge();
-
-                        //setting textview to new values received from firebase database
-                        uName.setText(firstName);
-                        email.setText(emailAddress);
-                        dob.setText(birthday);
-                        age.setText(userAge);
-
-
-                    }
+                    uName.setText(personName);
+                    email.setText(personEmail);
                 }
+                else
+                {
+                    //if user registered using email and password retrieve information from firebase database
+                    mDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                            {
+                                UserInformation userInformation = postSnapshot.getValue(UserInformation.class);
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                //receiving information from UserInformation class
+                                String firstName = "Name: " + userInformation.getfName() + " "+userInformation.getlName();
+                                String emailAddress = "Email: " + userInformation.getEmailAddress();
+                                String birthday = "Birth Date: " + userInformation.getBirthDate();
+                                String userAge = "Age: " + userInformation.getAge();
 
+                                //setting textview to new values received from firebase database
+                                uName.setText(firstName);
+                                email.setText(emailAddress);
+                                dob.setText(birthday);
+                                age.setText(userAge);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
-            });
+            }
         }
+
 
 
 
