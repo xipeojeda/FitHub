@@ -2,9 +2,7 @@ package com.example.fithub;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -12,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -22,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.fithub.ModelClasses.UserInformation;
 import com.example.fithub.logger.Log;
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,8 +47,7 @@ public class AccountActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private CircleImageView image;
     private ImageButton dMenu;
-    private TextView fName;
-    private TextView lName;
+    private TextView uName;
     private TextView email;
     private TextView dob;
     private TextView age;
@@ -84,15 +79,13 @@ public class AccountActivity extends AppCompatActivity {
                     UserInformation userInformation = postSnapshot.getValue(UserInformation.class);
 
                     //receiving information from UserInformation class
-                    String firstName = userInformation.getfName();
-                    String lastName = userInformation.getlName();
-                    String emailAddress = userInformation.getEmailAddress();
-                    String birthday = userInformation.getBirthDate();
-                    String userAge = Integer.toString(userInformation.getAge());
+                    String firstName = "Name: " + userInformation.getfName() + " "+userInformation.getlName();
+                    String emailAddress = "Email: " + userInformation.getEmailAddress();
+                    String birthday = "Birth Date: " + userInformation.getBirthDate();
+                    String userAge = "Age: " + userInformation.getAge();
 
                     //setting textview to new values received from firebase database
-                    fName.setText(firstName);
-                    lName.setText(lastName);
+                    uName.setText(firstName);
                     email.setText(emailAddress);
                     dob.setText(birthday);
                     age.setText(userAge);
@@ -176,8 +169,7 @@ public class AccountActivity extends AppCompatActivity {
     {
         dMenu = findViewById(R.id.dotMenu);
         image = findViewById(R.id.profileImage);
-        fName = findViewById(R.id.firstname);
-        lName = findViewById(R.id.lastname);
+        uName = findViewById(R.id.userName);
         email = findViewById(R.id.email);
         dob = findViewById(R.id.birthday);
         age = findViewById(R.id.age);

@@ -72,32 +72,32 @@
 
             <TextView
                 android:id="@+id/age"
-                android:layout_width="62dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="120dp"
-                android:layout_marginRight="120dp"
+                android:layout_width="78dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="136dp"
+                android:layout_marginRight="136dp"
                 android:ems="10"
                 android:hint="Age"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastname" />
+                app:layout_constraintTop_toBottomOf="@+id/userName" />
 
             <TextView
                 android:id="@+id/birthday"
-                android:layout_width="123dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="147dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="12dp"
                 android:ems="10"
                 android:hint="MM/DD/YYYY"
                 android:inputType="date"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/firstname" />
+                app:layout_constraintTop_toBottomOf="@+id/userName" />
 
             <TextView
-                android:id="@+id/firstname"
-                android:layout_width="182dp"
-                android:layout_height="45dp"
+                android:id="@+id/userName"
+                android:layout_width="379dp"
+                android:layout_height="41dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:hint="First Name"
@@ -107,20 +107,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/email"
                 app:layout_constraintVertical_bias="0.054" />
 
-            <TextView
-                android:id="@+id/lastname"
-                android:layout_width="169dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:ems="10"
-                android:hint="Last Name"
-                android:inputType="textPersonName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email"
-                app:layout_constraintVertical_bias="0.054" />
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>

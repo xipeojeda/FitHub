@@ -122,7 +122,7 @@ public class RegistrationActivity extends AppCompatActivity {
     {
         emailTV = findViewById(R.id.email);
         passwordTV = findViewById(R.id.password);
-        fNameTV = findViewById(R.id.firstname);
+        fNameTV = findViewById(R.id.userName);
         lNameTV = findViewById(R.id.lastname);
         ageTV = findViewById(R.id.age);
         dobTV = findViewById(R.id.birthday);
