@@ -57,9 +57,7 @@ public class AccountActivity extends AppCompatActivity {
     private Uri filePath;
     private static int RESULT_LOAD_IMAGE = 72;
     private static final String TAG = "Delete User: ";
-
-
-    FirebaseUser user = mAuth.getInstance().getCurrentUser();
+    private FirebaseUser user;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -70,10 +68,7 @@ public class AccountActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
-        String user_id = user.getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("User Information").child(user_id);
+        user = mAuth.getInstance().getCurrentUser();
 
         for(UserInfo user: mAuth.getCurrentUser().getProviderData())
         {
@@ -90,6 +85,9 @@ public class AccountActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    String user_id = user.getUid();
+                    mDatabase = FirebaseDatabase.getInstance().getReference();
+                    mDatabase.child("User Information").child(user_id);
                     //if user registered using email and password retrieve information from firebase database
                     mDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
