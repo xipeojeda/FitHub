@@ -4,8 +4,8 @@ import com.firebase.ui.auth.data.model.User;
 
 public class UserInformation
 {
-    String fName, lName, emailAddress, birthDate;
-    int age;
+    private String fName, lName, emailAddress, birthDate;
+    private int age;
 
     public UserInformation()
     {
