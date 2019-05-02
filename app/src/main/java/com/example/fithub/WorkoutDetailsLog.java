@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fithub.ModelClasses.workout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,12 +28,16 @@ public class WorkoutDetailsLog extends AppCompatActivity {
     private EditText workdat, worktype, wExercise, workReps;
     private BottomNavigationView nav;
     private Button logger;
+    private FirebaseUser user;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details_log);
         initializeUI();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -54,7 +60,6 @@ public class WorkoutDetailsLog extends AppCompatActivity {
                 return false;
             }
         });
-
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = db.getReference();
@@ -79,8 +84,9 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         logger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String child = workdat.getText().toString();
-                myRef.child("Workouts").child(child).setValue(setLog());
+                String user_id = user.getUid();
+                //Storing into realtime Firebase Database under Workouts -> Unique User ID
+                myRef.child("Workouts").child(user_id).setValue(setLog());
             }
         });
 
