@@ -16,8 +16,6 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.fithub.ModelClasses.UserInformation;
 import com.example.fithub.logger.Log;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -37,6 +35,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -45,7 +45,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
-    private DatabaseReference mDatabase;
     private StorageReference storageReference;
     private CircleImageView image;
     private ImageButton dMenu;
@@ -68,59 +67,55 @@ public class AccountActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        user = mAuth.getInstance().getCurrentUser();
+        user = mAuth.getCurrentUser();
 
-        for(UserInfo user: mAuth.getCurrentUser().getProviderData())
+        for(UserInfo userI: user.getProviderData())
         {
-            if(user.getProviderId().equals("google.com"))
+            if(userI.getProviderId().equals("google.com"))
             {
                 GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
                 if(acct != null)
                 {
                     String personName = "Name: " + acct.getDisplayName();
                     String personEmail = "Email: " + acct.getEmail();
+                    Uri uri = acct.getPhotoUrl();
 
                     uName.setText(personName);
                     email.setText(personEmail);
-                }
-                else
-                {
-                    String user_id = user.getUid();
-                    mDatabase = FirebaseDatabase.getInstance().getReference();
-                    mDatabase.child("User Information").child(user_id);
-                    //if user registered using email and password retrieve information from firebase database
-                    mDatabase.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
-                            {
-                                UserInformation userInformation = postSnapshot.getValue(UserInformation.class);
-
-                                //receiving information from UserInformation class
-                                String firstName = "Name: " + userInformation.getfName() + " "+userInformation.getlName();
-                                String emailAddress = "Email: " + userInformation.getEmailAddress();
-                                String birthday = "Birth Date: " + userInformation.getBirthDate();
-                                String userAge = "Age: " + userInformation.getAge();
-
-                                //setting textview to new values received from firebase database
-                                uName.setText(firstName);
-                                email.setText(emailAddress);
-                                dob.setText(birthday);
-                                age.setText(userAge);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                    Picasso.get().load(uri).into(image);
                 }
             }
+            if(userI.getProviderId().equals("password"))
+            {
+                String user_id = user.getUid();
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference yourRef = myRef.child("User Information").child(user_id);
+                //if user registered using email and password retrieve information from firebase database
+                ValueEventListener eventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+
+                        String fullName = "Name: " + dataSnapshot.child("First Name").getValue(String.class)+ " " + dataSnapshot.child("Last Name").getValue(String.class);
+                        String eMail = "Email: " + dataSnapshot.child("Email").getValue(String.class);
+                        String dateB = "Birthday: " + dataSnapshot.child("Date of Birth").getValue(String.class);
+                        String uAge = "Age: " + dataSnapshot.child("Age").getValue(Integer.class);
+                        //setting textview to new values received from firebase database
+                        uName.setText(fullName);
+                        email.setText(eMail);
+                        dob.setText(dateB);
+                        age.setText(uAge);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                };
+
+                yourRef.addListenerForSingleValueEvent(eventListener);
+            }
         }
-
-
-
 
         image.setOnClickListener(new View.OnClickListener()
         {
