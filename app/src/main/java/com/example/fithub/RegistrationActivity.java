@@ -25,6 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase db;
     private DatabaseReference myRef;
+    private int age = 0;
 
     @Override
     protected void onCreate(Bundle saveInstanceState)
@@ -48,15 +49,20 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registerNewUser()
     {
-        final String email, password, fName, lName, dob;
-        final int age;
+        String email, password, fName, lName, dob, strAge;
 
         email = emailTV.getText().toString().trim();
         password = passwordTV.getText().toString().trim();
         fName = fNameTV.getText().toString().trim();
         lName = lNameTV.getText().toString().trim();
         dob = dobTV.getText().toString().trim();
-        age = Integer.parseInt(ageTV.getText().toString().trim());
+        strAge = ageTV.getText().toString().trim();
+
+        try
+        {
+            age = Integer.parseInt(strAge) ;
+        }
+        catch (NumberFormatException e){}
 
         if(TextUtils.isEmpty(email))
         {
@@ -81,6 +87,11 @@ public class RegistrationActivity extends AppCompatActivity {
         if(TextUtils.isEmpty(dob))
         {
             Toast.makeText(getApplicationContext(), "Please Enter date of birth...", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(TextUtils.isEmpty(strAge))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter date of Age...", Toast.LENGTH_LONG).show();
             return;
         }
 

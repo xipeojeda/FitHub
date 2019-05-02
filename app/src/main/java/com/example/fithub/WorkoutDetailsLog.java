@@ -5,11 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.fithub.ModelClasses.workout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class WorkoutDetailsLog extends AppCompatActivity {
 
-    private TextView workdat, worktype, wExercise, workReps;
+    private EditText workdat, worktype, wExercise, workReps;
     private BottomNavigationView nav;
     private Button logger;
 
@@ -50,6 +54,8 @@ public class WorkoutDetailsLog extends AppCompatActivity {
                 return false;
             }
         });
+
+
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = db.getReference();
         //final DatabaseReference childRef = myRef.child("Workouts");
@@ -86,14 +92,40 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         String d;
         String type;
         String time;
-        CharSequence r = workReps.getText();
-        int repetitions;
+        String reps;
+        int repetitions = 0;
 
-        d = workdat.getText().toString();
-        type = worktype.getText().toString();
-        time = wExercise.getText().toString();
-        repetitions = Integer.parseInt(r.toString());
+        d = workdat.getText().toString().trim();
+        type = worktype.getText().toString().trim();
+        time = wExercise.getText().toString().trim();
+        reps = workReps.getText().toString().trim();
+        try{
+            repetitions = Integer.parseInt(reps);
+        }
+        catch(NumberFormatException e)
+        {
+
+        }
+
+        if(TextUtils.isEmpty(d))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter Date...", Toast.LENGTH_LONG).show();
+        }
+        if(TextUtils.isEmpty(type))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter Type...", Toast.LENGTH_LONG).show();
+        }
+        if(TextUtils.isEmpty(time))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter Exercise...", Toast.LENGTH_LONG).show();
+        }
+        if(TextUtils.isEmpty(reps))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter Repetitions...", Toast.LENGTH_LONG).show();
+        }
+
         workout w = new workout(d,type,time,repetitions);
+
         return w;
     }
 
