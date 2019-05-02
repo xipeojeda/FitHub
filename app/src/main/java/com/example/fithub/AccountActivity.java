@@ -60,7 +60,7 @@ public class AccountActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_account);//setting xml
         initializeUI();//links local variables to activity xml variables
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -71,22 +71,26 @@ public class AccountActivity extends AppCompatActivity {
         {
             if(userI.getProviderId().equals("google.com"))
             {
+                //if user is signed in with google account
                 GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
                 if(acct != null)
                 {
+                    //getting information from google account and setting to display in TextViews
                     String personName = "Name: " + acct.getDisplayName();
                     String personEmail = "Email: " + acct.getEmail();
                     Uri uri = acct.getPhotoUrl();
 
                     uName.setText(personName);
                     email.setText(personEmail);
-                    Picasso.get().load(uri).into(image);
+                    Picasso.get().load(uri).into(image);//setting google profile image to image (CircularImageView)
                 }
             }
             if(userI.getProviderId().equals("password"))
             {
+                //gets unique user id
                 String user_id = user.getUid();
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                //where data lives
                 DatabaseReference yourRef = myRef.child("User Information").child(user_id);
 
                 //if user registered using email and password retrieve information from firebase database
@@ -94,7 +98,7 @@ public class AccountActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                     {
-
+                        //setting local variables to data from firebase database
                         String fullName = "Name: " + dataSnapshot.child("First Name").getValue(String.class)+ " " + dataSnapshot.child("Last Name").getValue(String.class);
                         String eMail = "Email: " + dataSnapshot.child("Email").getValue(String.class);
                         String dateB = "Birthday: " + dataSnapshot.child("Date of Birth").getValue(String.class);
@@ -107,9 +111,9 @@ public class AccountActivity extends AppCompatActivity {
                        storageReference.child("images/" + user_id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                            @Override
                            public void onSuccess(Uri uri) {
-                               Picasso.get().load(uri).into(image);
+                               Picasso.get().load(uri).into(image);//load image to cache and make it image (CircularImageView)
 
-                           }
+                           }//if image fails to load display error
                        }).addOnFailureListener(new OnFailureListener() {
                            @Override
                            public void onFailure(@NonNull Exception e) {
@@ -127,7 +131,7 @@ public class AccountActivity extends AppCompatActivity {
                 yourRef.addListenerForSingleValueEvent(eventListener);
             }
         }
-
+        //if user clicks on profile image start selectImage method
         image.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -158,6 +162,9 @@ public class AccountActivity extends AppCompatActivity {
                 return false;
             }
         });
+        /*
+         inflates  3 dot menu, and handles the different options
+         */
         //setting up 3 dot menu options
         dMenu.setOnClickListener(new View.OnClickListener()
         {
@@ -165,16 +172,17 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 PopupMenu popup = new PopupMenu(getApplicationContext(), v);
-                popup.inflate(R.menu.account_options);
+                popup.inflate(R.menu.account_options);//inflate 3 dot menu
                 popup.show();
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch(item.getItemId())
+
                         {
                             case R.id.upload:
-                                uploadImage();
+                                uploadImage(); //runs upload method
                                 return true;
                             case R.id.logout:
                                 mAuth.signOut();//logs user out and brings them to login screen
@@ -183,10 +191,10 @@ public class AccountActivity extends AppCompatActivity {
                                 finish();
                                 return true;
                             case R.id.delete:
-                                deleteUser();
+                                deleteUser();//runs delete method
                                 return true;
                             default:
-                                return false;
+                                return false; //exits menu
                         }
                     }
                 });
@@ -194,7 +202,9 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
-    //initializes user modifiable buttons/text
+    /*Initializes class variables and links them to xml
+    @param NA
+    @returns NA*/
     public void initializeUI()
     {
         dMenu = findViewById(R.id.dotMenu);
@@ -205,17 +215,25 @@ public class AccountActivity extends AppCompatActivity {
         age = findViewById(R.id.age);
 
         //creating bottom navigation
-        nav = (BottomNavigationView) findViewById(R.id.navigation);
+        nav = findViewById(R.id.navigation);
     }
-
+    /*
+        Starts new intent that calls startActivityFor result to allow the user to select an image
+        @param NA
+        @returns NA
+     */
     private void selectImage()
     {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/*");//setting path
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Image"), RESULT_LOAD_IMAGE);
     }
-
+    /*
+    fetches filePath of an image and sets it image (CircularImageView to that image)
+    @param int requestCode, int resultCode, Intent data
+    @returns NA
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -272,15 +290,15 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
-    //deletes user, on click of button
-    //prompt user if they are sure
-    //if no close dialog
-    //yes delete account and send to login page
+    /*deletes user, on click of button prompt user if they are sure if no close dialog yes delete account and send to login page
+    @param NA
+    @returns NA
+    */
     public void deleteUser()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm");
-        builder.setMessage("Are you sure?");
+        builder.setMessage("Are you sure?");//if user selects yes delete account
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -290,6 +308,7 @@ public class AccountActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful())
                                 {
+                                    //takes user back to login page
                                     Log.d(TAG, "User Account Deleted");
                                     Intent go2login = new Intent(AccountActivity.this, LoginActivity.class);
                                     startActivity(go2login);
@@ -298,7 +317,7 @@ public class AccountActivity extends AppCompatActivity {
                         });
             }
         });
-
+        //if user selects NO dismiss the prompt
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
