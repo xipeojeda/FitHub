@@ -35,6 +35,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -80,7 +82,7 @@ public class AccountActivity extends AppCompatActivity {
 
                     uName.setText(personName);
                     email.setText(personEmail);
-                    image.setImageURI(uri);
+                    Picasso.get().load(uri).into(image);
                 }
             }
             if(userI.getProviderId().equals("password"))
