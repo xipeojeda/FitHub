@@ -56,7 +56,7 @@ public class RegistrationActivity extends AppCompatActivity {
         fName = fNameTV.getText().toString().trim();
         lName = lNameTV.getText().toString().trim();
         dob = dobTV.getText().toString().trim();
-        age = ageTV.getInputType();
+        age = Integer.parseInt(ageTV.getText().toString().trim());
 
         if(TextUtils.isEmpty(email))
         {
@@ -94,7 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         }else
                         {
-                            String user_id = mAuth.getCurrentUser().getUid();
+                            String user_id = mAuth.getInstance().getCurrentUser().getUid();
                             myRef = myRef.child(user_id);
                             myRef.child("First Name").setValue(fName);
                             myRef.child("Last Name").setValue(lName);
