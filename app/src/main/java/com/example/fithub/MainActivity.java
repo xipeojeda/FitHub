@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int numSteps;
     private BottomNavigationView nav;
     private TextView tvSteps;
+    private TextView stepCounter;
     private Button btnStart;
     private Button btnStop;
 
@@ -104,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void step(long timeNs) {
         numSteps++;
-        String stepDisplay = TEXT_NUM_STEPS + " " + numSteps;
-        tvSteps.setText(stepDisplay);
+        String stepDisplay = Integer.toString(numSteps);
+        stepCounter.setText(stepDisplay);
     }
 
     private void initializeUI()
@@ -114,5 +115,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btnStart = findViewById(R.id.buttonStart);
         btnStop = findViewById(R.id.buttonStop);
         nav = findViewById(R.id.navigation);
+        stepCounter = findViewById(R.id.txvSteeps);
     }
 }
