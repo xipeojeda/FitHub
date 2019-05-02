@@ -10,13 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.fithub.logger.Log;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,7 +37,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import java.io.IOException;
-import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -105,7 +104,18 @@ public class AccountActivity extends AppCompatActivity {
                         email.setText(eMail);
                         dob.setText(dateB);
                         age.setText(uAge);
-                        Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/fithub-d5903.appspot.com/o/images%2F"+user_id+"?alt=media&token=7874c536-9944-4436-9f0b-006d331633e9").into(image);
+                       storageReference.child("images/" + user_id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                           @Override
+                           public void onSuccess(Uri uri) {
+                               Picasso.get().load(uri).into(image);
+
+                           }
+                       }).addOnFailureListener(new OnFailureListener() {
+                           @Override
+                           public void onFailure(@NonNull Exception e) {
+                               Toast.makeText(AccountActivity.this,"Firebase Prfile Image Not Loaded", Toast.LENGTH_SHORT).show();
+                           }
+                       });
                     }
 
                     @Override

@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.fithub.ModelClasses.workout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,22 +17,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 public class WorkoutDetailsLog extends AppCompatActivity {
 
-    TextView workdat, worktype, wExercise, workReps;
+    private TextView workdat, worktype, wExercise, workReps;
+    private BottomNavigationView nav;
     private Button logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details_log);
-        logger = (Button) findViewById(R.id.logBtn);
-        workdat =  (TextView) findViewById(R.id.etDate);
-        worktype =  (TextView) findViewById(R.id.type);
-        wExercise =  (TextView) findViewById(R.id.exercise);
-        workReps = (TextView) findViewById(R.id.reps);
-        BottomNavigationView nav = findViewById(R.id.navigation);
+        initializeUI();
 
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -95,12 +89,21 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         CharSequence r = workReps.getText();
         int repetitions;
 
-
         d = workdat.getText().toString();
         type = worktype.getText().toString();
         time = wExercise.getText().toString();
         repetitions = Integer.parseInt(r.toString());
         workout w = new workout(d,type,time,repetitions);
         return w;
+    }
+
+    private void initializeUI()
+    {
+        logger = findViewById(R.id.logBtn);
+        workdat = findViewById(R.id.etDate);
+        worktype = findViewById(R.id.type);
+        wExercise =  findViewById(R.id.exercise);
+        workReps = findViewById(R.id.reps);
+        nav = findViewById(R.id.navigation);
     }
 }

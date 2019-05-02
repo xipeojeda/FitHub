@@ -30,7 +30,6 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".ForgotPasswordActivity" />
 
-        <activity android:name=".PedometerActivity" />
     </application>
 
 </manifest>
