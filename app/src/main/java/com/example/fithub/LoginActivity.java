@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,22 +36,22 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private static final String TAG = "FitHub: ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         mAuth = FirebaseAuth.getInstance();
-
         initializeUI();
 
+        //if login button is clicked start login account method
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loginUserAccount();
             }
         });
-
+        //if forgot password is clicked start forgot password activity
         fPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //if create account is clicked start registration activity
         cAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-
+        //on click of google button sign in user
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -78,19 +77,23 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
-
+        //initiailizing google sign in client
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
     }
-
+    /*
+    logs a user in with email and password
+    @param NA
+    @return NA
+     */
     private void loginUserAccount() {
         String email, password;
         email = emailTV.getText().toString();
         password = passwordTV.getText().toString();
-
+        //if no input from user prompt them to fill in text fields
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
             return;
@@ -100,7 +103,8 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        //Logs a user in that has registered with email and password
+                mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -117,7 +121,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
+    /*Initializes class variables and links them to xml
+    @param NA
+    @returns NA*/
     private void initializeUI() {
         emailTV = findViewById(R.id.email);
         passwordTV = findViewById(R.id.password);
@@ -129,7 +135,11 @@ public class LoginActivity extends AppCompatActivity {
         cAccount = findViewById(R.id.createAccount);
 
     }
-
+    /*
+    Checks if a current user is logged in, allows for auto login
+    @param NA
+    @return NA
+     */
     @Override
     protected void onStart()
     {
@@ -158,7 +168,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
+    /*
+    uses firebase built in function to register a user with a google account
+    @param GoogleSignAccount account
+    @return NA
+     */
     private void firebaseAuthWithGoogle(GoogleSignInAccount account)
     {
         Log.d(TAG, "firebaseAuthWithGoogle" + account.getId());
@@ -169,20 +183,25 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful())
                         {
+                            //if task is successful login in user and start main activity
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
                             finish();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
-                        else
+                        else//if google sign in fails
                         {
                             Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-
+    /*
+        Signs in user if using GoogleSignIn
+        @param NA
+        @return NA
+     */
     public void signIn()
     {
          Intent signInIntent = mGoogleSignInClient.getSignInIntent();

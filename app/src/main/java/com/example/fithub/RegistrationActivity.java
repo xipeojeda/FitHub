@@ -35,8 +35,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
-        myRef = db.getReference("User Information");
+        myRef = db.getReference("User Information");//where user info is stored under fithub db
         initializeUI();
+        //if user clicks register run registerNewUser method
         regButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -46,7 +47,11 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
-
+    /*
+    registers a new user with information they provide
+    @param NA
+    @return NA
+     */
     private void registerNewUser()
     {
         String email, password, fName, lName, dob, strAge;
@@ -57,13 +62,13 @@ public class RegistrationActivity extends AppCompatActivity {
         lName = lNameTV.getText().toString().trim();
         dob = dobTV.getText().toString().trim();
         strAge = ageTV.getText().toString().trim();
-
+        //check if age from strAge is a valid entry
         try
         {
             age = Integer.parseInt(strAge) ;
         }
         catch (NumberFormatException e){}
-
+        //if any of the EditText fields are empty prompt user for information
         if(TextUtils.isEmpty(email))
         {
             Toast.makeText(getApplicationContext(), "Please Enter email...", Toast.LENGTH_LONG).show();
@@ -94,7 +99,7 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please Enter date of Age...", Toast.LENGTH_LONG).show();
             return;
         }
-
+        //create new user with user provided variables
         userInfo = new UserInformation(fName, lName, email, dob, age);
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -105,8 +110,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         }else
                         {
+                            //getting unique user id
                             String user_id = mAuth.getInstance().getCurrentUser().getUid();
                             myRef = myRef.child(user_id);
+                            //nesting account details into user id
                             myRef.child("First Name").setValue(fName);
                             myRef.child("Last Name").setValue(lName);
                             myRef.child("Date of Birth").setValue(dob);
@@ -115,7 +122,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             Toast.makeText(getApplicationContext(),"Registration Successful, Verification Email Sent!!", Toast.LENGTH_LONG).show();
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+                            //send user email verification
                             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -129,12 +136,14 @@ public class RegistrationActivity extends AppCompatActivity {
                             });
                             finish();
                             Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                            startActivity(intent);//after registration send to login
                         }
                     }
                 });
     }
-
+    /*Initializes class variables and links them to xml
+    @param NA
+    @returns NA*/
     private void initializeUI()
     {
         emailTV = findViewById(R.id.email);

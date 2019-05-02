@@ -1,16 +1,16 @@
 package com.example.fithub.ModelClasses;
 
-import com.firebase.ui.auth.data.model.User;
-
 public class UserInformation
 {
+    //user information variables
     private String fName, lName, emailAddress, birthDate;
     private int age;
-
+    //default constructor
     public UserInformation()
     {
 
     }
+    //overloaded constructor
     public UserInformation(String fName, String lName, String emailAddress,String birthDate, int age)
     {
         this.fName = fName;
@@ -19,7 +19,7 @@ public class UserInformation
         this.birthDate = birthDate;
         this.age = age;
     }
-
+    //setters and getters below for every variable
     public void setBirthDate(String birthDate)
     {
         this.birthDate = birthDate;
