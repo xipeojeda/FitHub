@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -28,53 +29,48 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accel;
     private static final String TEXT_NUM_STEPS = "Number of Steps: ";
     private int numSteps;
-    TextView TvSteps;
-    TextView BtnStart;
-    TextView BtnStop;
+    private BottomNavigationView nav;
+    private TextView tvSteps;
+    private Button btnStart;
+    private Button btnStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView nav = findViewById(R.id.navigation);
+        initializeUI();
+        // Get an instance of the SensorManager
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        simpleStepDetector = new StepDetector();
+        simpleStepDetector.registerListener(this);
 
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numSteps = 0;
+                sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+                Toast.makeText(MainActivity.this, "Step Counter Started", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        btnStop.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                sensorManager.unregisterListener(MainActivity.this);
+                Toast.makeText(MainActivity.this, "Step Counter Stopped", Toast.LENGTH_SHORT).show();
+
+            }
+        });
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch(menuItem.getItemId())
                 {
                     case R.id.navigation_home:
-                        Intent pedo = new Intent(MainActivity.this, PedometerActivity.class);
-                        startActivity(pedo);
-                        overridePendingTransition(0,0);
-                        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-                        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                        simpleStepDetector = new StepDetector();
-                        simpleStepDetector.registerListener(this);
-
-                        TvSteps = (TextView) findViewById(R.id.tv_steps);
-                        BtnStart = (Button) findViewById(R.id.btn_start);
-                        BtnStop = (Button) findViewById(R.id.btn_stop);
-
-                        BtnStart.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View arg0) {
-
-                                numSteps = 0;
-                                sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-                            }
-                        });
-
-
-                        BtnStop.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View arg0) {
-
-                                sensorManager.unregisterListener(MainActivity.this);
-
-                            }
-                        });
                         break;
                     case R.id.navigation_log:
                         Intent log = new Intent(MainActivity.this, WorkoutDetailsLog.class);
@@ -90,20 +86,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 return false;
             }
         });
-        //Create the Google Api Client
-     /*   mClient = new GoogleApiClient.Builder(this)
-                .addApi(Fitness.SENSORS_API)
-                .addApi(Fitness.SESSIONS_API)
-                .addApi(Fitness.HISTORY_API)
-                .addApi(Fitness.RECORDING_API)
-                //Specify Scopes of access
-                //provide callbacks
-                .addScope(SCOPE_ACTIVITY_READ)
-                .addScope(SCOPE_ACTIVITY_READ_WRITE)
-                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) this)
-                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) this)
-                .build();*/
-
     }
 
 
@@ -122,6 +104,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void step(long timeNs) {
         numSteps++;
-        TvSteps.setText(TEXT_NUM_STEPS + numSteps);
+        String stepDisplay = TEXT_NUM_STEPS + " " + numSteps;
+        tvSteps.setText(stepDisplay);
+    }
+
+    private void initializeUI()
+    {
+        tvSteps = findViewById(R.id.stepView);
+        btnStart = findViewById(R.id.buttonStart);
+        btnStop = findViewById(R.id.buttonStop);
+        nav = findViewById(R.id.navigation);
     }
 }

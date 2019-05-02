@@ -36,7 +36,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
 import java.io.IOException;
 import java.util.UUID;
 
@@ -90,6 +89,7 @@ public class AccountActivity extends AppCompatActivity {
                 String user_id = user.getUid();
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
                 DatabaseReference yourRef = myRef.child("User Information").child(user_id);
+
                 //if user registered using email and password retrieve information from firebase database
                 ValueEventListener eventListener = new ValueEventListener() {
                     @Override
@@ -105,6 +105,7 @@ public class AccountActivity extends AppCompatActivity {
                         email.setText(eMail);
                         dob.setText(dateB);
                         age.setText(uAge);
+                        Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/fithub-d5903.appspot.com/o/images%2F"+user_id+"?alt=media&token=7874c536-9944-4436-9f0b-006d331633e9").into(image);
                     }
 
                     @Override
@@ -123,7 +124,6 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 selectImage();
-                uploadImage();
             }
         });
         //switch statement that controls bottom navigation activities
@@ -163,6 +163,9 @@ public class AccountActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch(item.getItemId())
                         {
+                            case R.id.upload:
+                                uploadImage();
+                                return true;
                             case R.id.logout:
                                 mAuth.signOut();//logs user out and brings them to login screen
                                 Intent go2Login = new Intent(AccountActivity.this, LoginActivity.class);
@@ -224,13 +227,14 @@ public class AccountActivity extends AppCompatActivity {
 
     private void uploadImage()
     {
+        String user_id = user.getUid();
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
+            StorageReference ref = storageReference.child("images/").child(user_id);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
                     {
