@@ -15,14 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
-
 public class MainActivity extends AppCompatActivity implements SensorEventListener, StepListener {
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-    private GoogleApiClient mClient;
     private TextView textView;
     private StepDetector simpleStepDetector;
     private SensorManager sensorManager;
@@ -45,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
-
+        //When start button is pressed start recording steps by registering sensorManager
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,10 +50,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Toast.makeText(MainActivity.this, "Step Counter Started", Toast.LENGTH_SHORT).show();
             }
         });
-
-
+        //When stop button is pressed stop recording steps by unregistering sensorManager
         btnStop.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
 
@@ -66,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         });
+        //handles navigation, when something other than current page is pressed start that
+        //activity
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -108,7 +104,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String stepDisplay = Integer.toString(numSteps);
         stepCounter.setText(stepDisplay);
     }
-
+    /*Initializes class variables and links them to xml
+    @param NA
+    @returns NA*/
     private void initializeUI()
     {
         tvSteps = findViewById(R.id.stepView);
