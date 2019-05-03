@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.fithub.SensorClasses.StepDetector;
+import com.example.fithub.SensorClasses.StepListener;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener, StepListener {
 
     public static final String TAG = "StepCounter";

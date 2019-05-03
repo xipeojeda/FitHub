@@ -15,7 +15,5 @@ public class GraphWorkout extends AppCompatActivity {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference myRef = db.getReference("Workouts");
 
-        
-
     }
 }

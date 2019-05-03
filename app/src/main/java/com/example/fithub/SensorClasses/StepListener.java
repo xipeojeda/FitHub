@@ -1,4 +1,4 @@
-package com.example.fithub;
+package com.example.fithub.SensorClasses;
 
 public interface StepListener {
 

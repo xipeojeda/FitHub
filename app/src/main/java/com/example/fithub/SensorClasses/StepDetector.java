@@ -1,4 +1,4 @@
-package com.example.fithub;
+package com.example.fithub.SensorClasses;
 
 public class StepDetector {
     private static final int ACCEL_RING_SIZE = 50;
