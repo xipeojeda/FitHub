@@ -1,13 +1,13 @@
 package com.example.fithub.ModelClasses;
 
-public class workout {
+public class Workout {
         private String date, type, exercise;
         private int reps;
 
-        public workout()
+        public Workout()
         {}
 //time = exercise
-        public workout(String date,String type,String time,int reps)
+        public Workout(String date, String type, String time, int reps)
         {
             this.date = date;
             this.type=type;

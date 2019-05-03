@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.fithub.ModelClasses.workout;
+import com.example.fithub.ModelClasses.Workout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,13 +22,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class WorkoutDetailsLog extends AppCompatActivity {
+public class WorkoutDetailsLogActivity extends AppCompatActivity {
 
     private EditText workdat, worktype, wExercise, workReps;
     private BottomNavigationView nav;
     private Button logger;
     private Button viewWorkouts;
     private FirebaseUser user;
+    private  DatabaseReference myRef;
     private FirebaseAuth mAuth;
 
     @Override
@@ -45,14 +46,14 @@ public class WorkoutDetailsLog extends AppCompatActivity {
                 switch(menuItem.getItemId())
                 {
                     case R.id.navigation_home:
-                        Intent home = new Intent(WorkoutDetailsLog.this, MainActivity.class);
+                        Intent home = new Intent(WorkoutDetailsLogActivity.this, MainActivity.class);
                         startActivity(home);
                         overridePendingTransition(0, 0);
                         break;
                     case R.id.navigation_log:
                         break;
                     case R.id.navigation_account:
-                        Intent acct = new Intent(WorkoutDetailsLog.this, AccountActivity.class);
+                        Intent acct = new Intent(WorkoutDetailsLogActivity.this, AccountActivity.class);
                         startActivity(acct);
                         overridePendingTransition(0, 0);
                         break;
@@ -62,15 +63,14 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         });
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = db.getReference();
-        //final DatabaseReference childRef = myRef.child("Workouts");
-        final String workoutDay = workdat.getText().toString();
+        myRef = db.getReference();
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                workout value = dataSnapshot.getValue(workout.class);
+                Workout value = dataSnapshot.getValue(Workout.class);
                 Log.d("Val", "Value is: " + value);
             }
 
@@ -81,27 +81,23 @@ public class WorkoutDetailsLog extends AppCompatActivity {
             }
         });
 
-        logger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String user_id = user.getUid();
-                //Storing into realtime Firebase Database under Workouts -> Unique User ID
-                myRef.child("Workouts").child(user_id).setValue(setLog());
-            }
-        });
-
         viewWorkouts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (WorkoutDetailsLog.this, DisplayWorkoutsActivity.class);
+                Intent intent = new Intent (WorkoutDetailsLogActivity.this, DisplayWorkoutsActivity.class);
                 startActivity(intent);
             }
         });
 
-    }
+        logger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLog();
+            }
+        });
 
-//comment
-    private workout setLog()
+    }
+    private void setLog()
     {
         String d;
         String type;
@@ -124,23 +120,31 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         if(TextUtils.isEmpty(d))
         {
             Toast.makeText(getApplicationContext(), "Please Enter Date...", Toast.LENGTH_LONG).show();
+            return;
         }
         if(TextUtils.isEmpty(type))
         {
             Toast.makeText(getApplicationContext(), "Please Enter Type...", Toast.LENGTH_LONG).show();
+            return;
         }
         if(TextUtils.isEmpty(time))
         {
             Toast.makeText(getApplicationContext(), "Please Enter Exercise...", Toast.LENGTH_LONG).show();
+            return;
         }
         if(TextUtils.isEmpty(reps))
         {
             Toast.makeText(getApplicationContext(), "Please Enter Repetitions...", Toast.LENGTH_LONG).show();
+            return;
+
         }
 
-        workout w = new workout(d,type,time,repetitions);
+        Workout w = new Workout(d,type,time,repetitions);
 
-        return w;
+        String user_id = user.getUid();
+        //Storing into realtime Firebase Database under Workouts -> Unique User ID
+        Toast.makeText(getApplicationContext(), "Workout Logged", Toast.LENGTH_LONG).show();
+        myRef.child("Workouts").child(user_id).push().setValue(w);
     }
 
     private void initializeUI()

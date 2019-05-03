@@ -3,13 +3,17 @@ package com.example.fithub;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 //import com.google.android.gms.fitness.data.DataPoint;
 import com.example.fithub.ModelClasses.Weight;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,32 +29,31 @@ import java.util.Date;
 
 
 public class WeightLoggerActivity extends AppCompatActivity {
-    EditText date, weight;
-    Button log;
-    GraphView graphView;
-    LineGraphSeries series;
-    FirebaseDatabase db;
-    DatabaseReference myRef;
+    private EditText date, weight;
+    private Button log;
+    private GraphView graphView;
+    private LineGraphSeries series;
+    private FirebaseDatabase db;
+    private DatabaseReference myRef;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight_logger);
-
-        date = (EditText) findViewById(R.id.etDate);
-        weight = (EditText) findViewById(R.id.etWeight);
-        Button log = (Button) findViewById(R.id.logBtn);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
         db = FirebaseDatabase.getInstance();
-        myRef = db.getReference("Weights");
-        graphView = (GraphView) findViewById(R.id.graph);
-
+        String user_id = user.getUid();
+        myRef = db.getReference("User Weight").child(user_id);
+        initializeUI();
         series = new LineGraphSeries();
         graphView.addSeries(series);
 
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String child = date.getText().toString();
                 myRef.push().setValue(setLog());
             }
         });
@@ -98,14 +101,37 @@ public class WeightLoggerActivity extends AppCompatActivity {
     }
 
     private Weight setLog()
-    {   double wght;
+    {   double wght = 0.0;
         String inputDate = date.getText().toString();
         String getDouble = weight.getText().toString();
-        wght = Double.parseDouble(getDouble);
+        try
+        {
+            wght = Double.parseDouble(getDouble);
+        }catch(NumberFormatException e){}
+
+        if(TextUtils.isEmpty(inputDate))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter Date...", Toast.LENGTH_LONG).show();
+        }
+        if(TextUtils.isEmpty(getDouble))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter Weight...", Toast.LENGTH_LONG).show();
+        }
+
 
         Weight w = new Weight(inputDate, wght);
         return w;
+    }
 
+    /*Initializes class variables and links them to xml
+    @param NA
+    @returns NA*/
+    private void initializeUI()
+    {
+        date = findViewById(R.id.etDate);
+        weight = findViewById(R.id.etWeight);
+        log = findViewById(R.id.logBtn);
+        graphView = findViewById(R.id.graph);
     }
 
 }

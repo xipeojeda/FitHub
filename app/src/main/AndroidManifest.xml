@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WorkoutDetailsLog" />
+        <activity android:name=".WorkoutDetailsLogActivity" />
         <activity android:name=".GraphWorkout" />
         <activity android:name=".WeightLoggerActivity" />
         <activity android:name=".AccountActivity" />

@@ -3,4 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_log">Log</string>
     <string name="title_account">Account</string>
+    <string name="add_new_workout">Add New Workout</string>
+    <string name="date">Date</string>
+    <string name="type">Type</string>
+    <string name="exercise">Exercise</string>
+    <string name="log_details">Log Details</string>
+    <string name="view_logged_workouts">View Logged Workouts</string>
+    <string name="repetitions">Repetitions</string>
 </resources>

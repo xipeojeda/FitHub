@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     case R.id.navigation_home:
                         break;
                     case R.id.navigation_log:
-                        Intent log = new Intent(MainActivity.this, WorkoutDetailsLog.class);
+                        Intent log = new Intent(MainActivity.this, WorkoutDetailsLogActivity.class);
                         startActivity(log);
                         overridePendingTransition(0, 0);
                         break;

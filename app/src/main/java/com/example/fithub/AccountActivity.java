@@ -152,7 +152,7 @@ public class AccountActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         break;
                     case R.id.navigation_log: //takes user to log screen
-                        Intent log = new Intent(AccountActivity.this, WorkoutDetailsLog.class);
+                        Intent log = new Intent(AccountActivity.this, WorkoutDetailsLogActivity.class);
                         startActivity(log);
                         overridePendingTransition(0, 0);
                         break;
