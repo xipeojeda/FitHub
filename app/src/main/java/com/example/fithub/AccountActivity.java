@@ -243,6 +243,7 @@ public class AccountActivity extends AppCompatActivity {
             filePath = data.getData();
             try
             {
+                //setting image from phone to image (CircularImageView)
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 image.setImageBitmap(bitmap);
             }catch(IOException e)
@@ -252,7 +253,11 @@ public class AccountActivity extends AppCompatActivity {
         }
 
     }
-
+    /*
+    uploads the user image to firebase storage
+    @param NA
+    @return NA
+     */
     private void uploadImage()
     {
         String user_id = user.getUid();
@@ -266,14 +271,14 @@ public class AccountActivity extends AppCompatActivity {
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
                     {
-                        @Override
+                        @Override//if upload is successful
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
                         {
                             progressDialog.dismiss();
                             Toast.makeText(AccountActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
+                    .addOnFailureListener(new OnFailureListener() {//if not print out error message
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();

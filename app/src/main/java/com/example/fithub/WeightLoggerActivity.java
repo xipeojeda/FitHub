@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class WeightLogger extends AppCompatActivity {
+public class WeightLoggerActivity extends AppCompatActivity {
     EditText date, weight;
     Button log;
     GraphView graphView;
@@ -107,6 +107,5 @@ public class WeightLogger extends AppCompatActivity {
         return w;
 
     }
-
 
 }
