@@ -1,31 +1,67 @@
 package com.example.fithub;
+
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
-import com.google.android.gms.common.api.GoogleApiClient;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, StepListener {
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-    private GoogleApiClient mClient;
-    private ActionBar toolbar;
+    private TextView textView;
+    private StepDetector simpleStepDetector;
+    private SensorManager sensorManager;
+    private Sensor accel;
+    private static final String TEXT_NUM_STEPS = "Number of Steps: ";
+    private int numSteps;
+    private BottomNavigationView nav;
+    private TextView tvSteps;
+    private TextView stepCounter;
+    private Button btnStart;
+    private Button btnStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initializeUI();
+        // Get an instance of the SensorManager
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        simpleStepDetector = new StepDetector();
+        simpleStepDetector.registerListener(this);
+        //When start button is pressed start recording steps by registering sensorManager
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numSteps = 0;
+                sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+                Toast.makeText(MainActivity.this, "Step Counter Started", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //When stop button is pressed stop recording steps by unregistering sensorManager
+        btnStop.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
 
-        //creating bottom navigation
-        toolbar = getSupportActionBar();
-        BottomNavigationView nav = findViewById(R.id.navigation);
-        toolbar.setTitle("FitHub");
+                sensorManager.unregisterListener(MainActivity.this);
+                Toast.makeText(MainActivity.this, "Step Counter Stopped", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+        //handles navigation, when something other than current page is pressed start that
+        //activity
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -47,23 +83,36 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        //Create the Google Api Client
-     /*   mClient = new GoogleApiClient.Builder(this)
-                .addApi(Fitness.SENSORS_API)
-                .addApi(Fitness.SESSIONS_API)
-                .addApi(Fitness.HISTORY_API)
-                .addApi(Fitness.RECORDING_API)
-                //Specify Scopes of access
-                //provide callbacks
-                .addScope(SCOPE_ACTIVITY_READ)
-                .addScope(SCOPE_ACTIVITY_READ_WRITE)
-                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) this)
-                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) this)
-                .build();*/
-
     }
 
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            simpleStepDetector.updateAccel(
+                    event.timestamp, event.values[0], event.values[1], event.values[2]);
+        }
+    }
 
+    @Override
+    public void step(long timeNs) {
+        numSteps++;
+        String stepDisplay = Integer.toString(numSteps);
+        stepCounter.setText(stepDisplay);
+    }
+    /*Initializes class variables and links them to xml
+    @param NA
+    @returns NA*/
+    private void initializeUI()
+    {
+        tvSteps = findViewById(R.id.stepView);
+        btnStart = findViewById(R.id.buttonStart);
+        btnStop = findViewById(R.id.buttonStop);
+        nav = findViewById(R.id.navigation);
+        stepCounter = findViewById(R.id.txvSteeps);
+    }
 }
