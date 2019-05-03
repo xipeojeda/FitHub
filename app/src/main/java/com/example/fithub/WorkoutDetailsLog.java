@@ -93,7 +93,7 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         viewWorkouts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (WorkoutDetailsLog.this, DisplayWorkouts.class);
+                Intent intent = new Intent (WorkoutDetailsLog.this, DisplayWorkoutsActivity.class);
                 startActivity(intent);
             }
         });

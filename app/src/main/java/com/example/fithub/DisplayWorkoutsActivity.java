@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DisplayWorkouts extends AppCompatActivity {
+public class DisplayWorkoutsActivity extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference myRef;
     private ListView listView;
