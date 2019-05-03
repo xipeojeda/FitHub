@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:textAlignment="center"
-        android:textSize="25sp"
-        android:text="Workout Information"
-        android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:accessibilityPaneTitle="Workout Information">
+
+
+    <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:id="@+id/tvUserInfo"/>
+        android:layout_height="73dp"
+        android:background="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/fithub_logo"
+        android:padding="10dp"
+        android:paddingBottom="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvUserInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="Workouts"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:padding="5dp"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listview"/>
+        android:id="@+id/listview"
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="2dp"/>
 </LinearLayout>
