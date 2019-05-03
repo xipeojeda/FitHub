@@ -1,17 +1,16 @@
 package com.example.fithub;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fithub.ModelClasses.workout;
@@ -28,6 +27,7 @@ public class WorkoutDetailsLog extends AppCompatActivity {
     private EditText workdat, worktype, wExercise, workReps;
     private BottomNavigationView nav;
     private Button logger;
+    private Button viewWorkouts;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
 
@@ -90,6 +90,14 @@ public class WorkoutDetailsLog extends AppCompatActivity {
             }
         });
 
+        viewWorkouts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (WorkoutDetailsLog.this, DisplayWorkouts.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 //comment
@@ -142,6 +150,7 @@ public class WorkoutDetailsLog extends AppCompatActivity {
         worktype = findViewById(R.id.type);
         wExercise =  findViewById(R.id.exercise);
         workReps = findViewById(R.id.reps);
+        viewWorkouts = findViewById(R.id.viewWorkouts);
         nav = findViewById(R.id.navigation);
     }
 }
