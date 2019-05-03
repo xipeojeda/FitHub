@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import com.example.fithub.SensorClasses.StepDetector;
 import com.example.fithub.SensorClasses.StepListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, StepListener {
 
@@ -33,11 +37,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView stepCounter;
     private Button btnStart;
     private Button btnStop;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private FirebaseDatabase db;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        String user_id = user.getUid();
+        db = FirebaseDatabase.getInstance();
+        myRef = db.getReference("User Step Count").child(user_id);
+
         initializeUI();
         // Get an instance of the SensorManager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -57,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btnStop.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                myRef.push().setValue(numSteps);
                 sensorManager.unregisterListener(MainActivity.this);
                 Toast.makeText(MainActivity.this, "Step Counter Stopped", Toast.LENGTH_SHORT).show();
 

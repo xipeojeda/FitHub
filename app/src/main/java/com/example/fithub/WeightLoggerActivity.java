@@ -26,8 +26,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//import com.google.android.gms.fitness.data.DataPoint;
-
 
 public class WeightLoggerActivity extends AppCompatActivity {
     private EditText date, weight;
