@@ -50,15 +50,15 @@ public class DisplayWorkoutsActivity extends AppCompatActivity {
         for(DataSnapshot ds: dataSnapshot.getChildren())
         {
             workout w = new workout();
-            w.setDate(ds.getValue(workout.class).getDate());
-            w.setTime(ds.getValue(workout.class).getExercise());
-            w.setType(ds.getValue(workout.class).getType());
+            w.setDate("Date: "+ds.getValue(workout.class).getDate());
+            w.setTime("Exercise: "+ ds.getValue(workout.class).getExercise());
+            w.setType("Type: " + ds.getValue(workout.class).getType());
             w.setReps(ds.getValue(workout.class).getReps());
             String x = Integer.valueOf(w.getReps()).toString();
             array.add(w.getDate());
             array.add(w.getType());
             array.add(w.getExercise());
-            array.add(x);
+            array.add("Repetitions: " + x);
         }
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_expandable_list_item_1,array);
         listView.setAdapter(adapter);
