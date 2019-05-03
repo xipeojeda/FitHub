@@ -117,7 +117,7 @@ public class AccountActivity extends AppCompatActivity {
                        }).addOnFailureListener(new OnFailureListener() {
                            @Override
                            public void onFailure(@NonNull Exception e) {
-                               Toast.makeText(AccountActivity.this,"Firebase Prfile Image Not Loaded", Toast.LENGTH_SHORT).show();
+                               Toast.makeText(AccountActivity.this,"Firebase Profile Image Not Loaded", Toast.LENGTH_SHORT).show();
                            }
                        });
                     }
