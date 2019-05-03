@@ -1,8 +1,8 @@
 package com.example.fithub;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-//import com.google.android.gms.fitness.data.DataPoint;
 import com.example.fithub.ModelClasses.Weight;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +25,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+//import com.google.android.gms.fitness.data.DataPoint;
 
 
 public class WeightLoggerActivity extends AppCompatActivity {
@@ -54,7 +55,7 @@ public class WeightLoggerActivity extends AppCompatActivity {
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRef.push().setValue(setLog());
+                setLog();
             }
         });
     }
@@ -73,12 +74,17 @@ public class WeightLoggerActivity extends AppCompatActivity {
                 {
                     Weight value = ds.getValue(Weight.class);
                     Date date1 =null;
-
-                    try {
-                        date1 = new SimpleDateFormat("mm/dd/yy"   ).parse(value.getDate());
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    if(date1!=null)
+                    {
+                        try {
+                            date1 = new SimpleDateFormat("mm/dd/yy"   ).parse(value.getDate());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else
+                    {
+                        return;
                     }
 
                     dp[x] = new DataPoint(date1, value.getWeight());
@@ -96,31 +102,37 @@ public class WeightLoggerActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
-    private Weight setLog()
+    /*
+
+     */
+    private void setLog()
     {   double wght = 0.0;
         String inputDate = date.getText().toString();
         String getDouble = weight.getText().toString();
         try
         {
             wght = Double.parseDouble(getDouble);
+
         }catch(NumberFormatException e){}
 
         if(TextUtils.isEmpty(inputDate))
         {
             Toast.makeText(getApplicationContext(), "Please Enter Date...", Toast.LENGTH_LONG).show();
+            return;
         }
         if(TextUtils.isEmpty(getDouble))
         {
             Toast.makeText(getApplicationContext(), "Please Enter Weight...", Toast.LENGTH_LONG).show();
+            return;
         }
 
 
         Weight w = new Weight(inputDate, wght);
-        return w;
+
+        myRef.push().setValue(w);
+        Toast.makeText(getApplicationContext(), "Weight Logged", Toast.LENGTH_LONG).show();
     }
 
     /*Initializes class variables and links them to xml

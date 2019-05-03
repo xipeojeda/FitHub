@@ -93,6 +93,8 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setLog();
+                clearText();
+
             }
         });
 
@@ -156,5 +158,17 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
         workReps = findViewById(R.id.reps);
         viewWorkouts = findViewById(R.id.viewWorkouts);
         nav = findViewById(R.id.navigation);
+    }
+    /*
+    clears edit text fields
+    @param NA
+    @return NA
+     */
+    public void clearText()
+    {
+        workdat.setText("");
+        worktype.setText("");
+        wExercise.setText("");
+        workReps.setText("");
     }
 }
