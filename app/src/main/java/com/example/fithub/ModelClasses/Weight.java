@@ -4,7 +4,6 @@ package com.example.fithub.ModelClasses;
  * Class used to to input user info about weight. User will input current weight, and date recorded
  */
 public class Weight {
-    private String date;
     private double weight;
 
     /**
@@ -15,24 +14,13 @@ public class Weight {
 
     /**
      * Instantiates a new Weight.
-     *
-     * @param d the day recorded
      * @param w current weight
      */
-    public Weight(String d, double w)
+    public Weight(double w)
     {
-        date=d;
         weight=w;
     }
 
-    /**
-     * Sets date.
-     *
-     * @param date the date
-     */
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     /**
      * Sets weight.
@@ -41,16 +29,6 @@ public class Weight {
      */
     public void setWeight(double weight) {
         this.weight = weight;
-    }
-
-    /**
-     * Gets date.
-     *
-     * @return the date
-     */
-    public String getDate()
-    {
-        return date;
     }
 
     /**

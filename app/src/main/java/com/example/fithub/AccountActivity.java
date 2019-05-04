@@ -1,22 +1,28 @@
 package com.example.fithub;
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.fithub.ModelClasses.Weight;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +42,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -50,6 +57,8 @@ public class AccountActivity extends AppCompatActivity {
     private TextView email;
     private TextView dob;
     private TextView age;
+    private TextView weight;
+    private Button saveWeight;
     private  BottomNavigationView nav;
     private Uri filePath;
     private static int RESULT_LOAD_IMAGE = 72;
@@ -80,9 +89,35 @@ public class AccountActivity extends AppCompatActivity {
                     String personEmail = "Email: " + acct.getEmail();
                     Uri uri = acct.getPhotoUrl();
 
+                    String user_id = user.getUid();
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference yourRef2 = myRef.child("User Weight").child(user_id);
+
                     uName.setText(personName);
                     email.setText(personEmail);
                     Picasso.get().load(uri).into(image);//setting google profile image to image (CircularImageView)
+
+                    ValueEventListener eventListener2 = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Weight dWeight = dataSnapshot.child("Weight").getValue(Weight.class);
+                            if(dWeight == null)
+                            {
+                                String def = "0.0";
+                                weight.setText(def);
+                            }
+                            else{
+                                String strWeight = "" + dWeight.getWeight();
+                                weight.setText(strWeight);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    };
+                    yourRef2.addListenerForSingleValueEvent(eventListener2);
                 }
             }
             if(userI.getProviderId().equals("password"))
@@ -92,6 +127,30 @@ public class AccountActivity extends AppCompatActivity {
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
                 //where data lives
                 DatabaseReference yourRef = myRef.child("User Information").child(user_id);
+                DatabaseReference yourRef2 = myRef.child("User Weight").child(user_id);
+
+                ValueEventListener eventListener2 = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Weight dWeight = dataSnapshot.child("Weight").getValue(Weight.class);
+                        if(dWeight == null)
+                        {
+                            String def = "0.0";
+                            weight.setText(def);
+                        }
+                        else{
+                            String strWeight = "" + dWeight.getWeight();
+                            weight.setText(strWeight);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                };
+                yourRef2.addListenerForSingleValueEvent(eventListener2);
 
                 //if user registered using email and password retrieve information from firebase database
                 ValueEventListener eventListener = new ValueEventListener() {
@@ -203,6 +262,13 @@ public class AccountActivity extends AppCompatActivity {
                 });
             }
         });
+
+        saveWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logUserWeight();
+            }
+        });
     }
 
     /*Initializes class variables and links them to xml
@@ -216,6 +282,11 @@ public class AccountActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         dob = findViewById(R.id.birthday);
         age = findViewById(R.id.age);
+
+        //only edit text field i want editable
+        weight = findViewById(R.id.userWeight);
+        weight.setGravity(Gravity.CENTER_HORIZONTAL);
+        saveWeight = findViewById(R.id.weightButton);
 
         //making edit text fields uneditable
         uName.setKeyListener(null);
@@ -340,6 +411,36 @@ public class AccountActivity extends AppCompatActivity {
 
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    /*
+    allows user to log weight to db
+    @param NA
+    @return NA
+     */
+    public void logUserWeight()
+    {
+        double wght = 0.0;
+        String getDouble = weight.getText().toString();
+        try
+        {
+            wght = Double.parseDouble(getDouble);
+
+        }catch(NumberFormatException e){}
+
+        if(TextUtils.isEmpty(getDouble))
+        {
+            Toast.makeText(getApplicationContext(), "Please Enter Weight...", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String user_id = user.getUid();
+        Weight w = new Weight(wght);
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        //where data lives
+        DatabaseReference yourRef = myRef.child("User Weight").child(user_id);
+        yourRef.child("Weight").setValue(w);
+        Toast.makeText(getApplicationContext(), "Weight Logged", Toast.LENGTH_LONG).show();
     }
 
 }
