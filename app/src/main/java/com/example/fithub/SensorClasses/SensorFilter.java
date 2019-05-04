@@ -1,10 +1,10 @@
 package com.example.fithub.SensorClasses;
-
+//Filters out values that has a close approximation to steps
 public class SensorFilter {
     private SensorFilter() {
     }
 
-    public static float sum(float[] array) {
+    public static float sum(float[] array) { //Sums up the number
         float retval = 0;
         for (int i = 0; i < array.length; i++) {
             retval += array[i];
@@ -12,7 +12,7 @@ public class SensorFilter {
         return retval;
     }
 
-    public static float[] cross(float[] arrayA, float[] arrayB) {
+    public static float[] cross(float[] arrayA, float[] arrayB) { //cross product of data
         float[] retArray = new float[3];
         retArray[0] = arrayA[1] * arrayB[2] - arrayA[2] * arrayB[1];
         retArray[1] = arrayA[2] * arrayB[0] - arrayA[0] * arrayB[2];
@@ -20,7 +20,7 @@ public class SensorFilter {
         return retArray;
     }
 
-    public static float norm(float[] array) {
+    public static float norm(float[] array) { //normalizes the array of data passed
         float retval = 0;
         for (int i = 0; i < array.length; i++) {
             retval += array[i] * array[i];
@@ -34,7 +34,7 @@ public class SensorFilter {
         return retval;
     }
 
-    public static float[] normalize(float[] a) {
+    public static float[] normalize(float[] a) { // normalizes data
         float[] retval = new float[a.length];
         float norm = norm(a);
         for (int i = 0; i < a.length; i++) {
