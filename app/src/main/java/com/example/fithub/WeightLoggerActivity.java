@@ -27,7 +27,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+/**
+ * Activity used to log weight into firebase database, and also graph.
+ */
 public class WeightLoggerActivity extends AppCompatActivity {
+    /**
+     * Instantiating inital buttons for the xml, also creating reference to Firebase object, authentication
+     * and database reference. Creating reference to graphview object
+     */
     private EditText date, weight;
     private Button log;
     private GraphView graphView;
@@ -38,17 +45,25 @@ public class WeightLoggerActivity extends AppCompatActivity {
     private FirebaseUser user;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
+        //instantiating xml and getting current user authorization
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight_logger);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
+        //setting up a reference to the database
         db = FirebaseDatabase.getInstance();
         String user_id = user.getUid();
+        //database subclass and child nodes
         myRef = db.getReference("User Weight").child(user_id);
+        //initialize the buttons as well as graph function
         initializeUI();
         series = new LineGraphSeries();
         graphView.addSeries(series);
+
+        //click the button to input data
 
         log.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +79,8 @@ public class WeightLoggerActivity extends AppCompatActivity {
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
+
+            //function for what to do when the reference to the database is called.
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DataPoint[] dp = new DataPoint[((int) dataSnapshot.getChildrenCount())];
                 int x=0;
@@ -103,7 +120,7 @@ public class WeightLoggerActivity extends AppCompatActivity {
     }
 
     /*
-
+      function that sets the weight and date object to be passed into the firebase database
      */
     private void setLog()
     {   double wght = 0.0;

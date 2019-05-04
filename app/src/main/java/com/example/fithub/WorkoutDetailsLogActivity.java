@@ -22,8 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * The type Workout details log activity.
+ */
 public class WorkoutDetailsLogActivity extends AppCompatActivity {
-
+    //Initializing the references to objects, and xml buttons, etc.
     private EditText workdat, worktype, wExercise, workReps;
     private BottomNavigationView nav;
     private Button logger;
@@ -34,9 +37,11 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //linking to xml layout as well as initializing the references.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details_log);
         initializeUI();
+        //getting the current user info
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
@@ -61,7 +66,8 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        //getting instance of the database to be manipulated, as well as a reference to
+        //that database
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         myRef = db.getReference();
 
@@ -80,7 +86,7 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
                 Log.w("on cancelled", "Failed to read value.", error.toException());
             }
         });
-
+        //Button to switch to view of all the logged workouts
         viewWorkouts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +105,10 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * function to set the date, type of workout, specific exercise, and reps
+     */
     private void setLog()
     {
         String d;
@@ -149,6 +159,7 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
         myRef.child("Workouts").child(user_id).push().setValue(w);
     }
 
+    //initialize buttons etc.
     private void initializeUI()
     {
         logger = findViewById(R.id.logBtn);
@@ -159,7 +170,8 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
         viewWorkouts = findViewById(R.id.viewWorkouts);
         nav = findViewById(R.id.navigation);
     }
-    /*
+
+/*
     clears edit text fields
     @param NA
     @return NA
