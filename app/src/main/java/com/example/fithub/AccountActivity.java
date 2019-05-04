@@ -88,6 +88,8 @@ public class AccountActivity extends AppCompatActivity {
                     String personName = "Name: " + acct.getDisplayName();
                     String personEmail = "Email: " + acct.getEmail();
                     Uri uri = acct.getPhotoUrl();
+                    //other texts fields such as birthdate and age are not included in google api
+                    //they will be left out for google users
 
                     String user_id = user.getUid();
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
