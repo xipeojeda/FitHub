@@ -101,7 +101,7 @@ public class AccountActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Weight dWeight = dataSnapshot.child("Weight").getValue(Weight.class);
-                            if(dWeight == null)
+                            if(dWeight == null)//if no weight set to default
                             {
                                 String def = "0.0";
                                 weight.setText(def);
@@ -133,7 +133,7 @@ public class AccountActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Weight dWeight = dataSnapshot.child("Weight").getValue(Weight.class);
-                        if(dWeight == null)
+                        if(dWeight == null)//if no weight set default
                         {
                             String def = "0.0";
                             weight.setText(def);
