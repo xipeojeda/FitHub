@@ -99,10 +99,10 @@ public class AccountActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                     {
                         //setting local variables to data from firebase database
-                        String fullName = "Name: " + dataSnapshot.child("First Name").getValue(String.class)+ " " + dataSnapshot.child("Last Name").getValue(String.class);
-                        String eMail = "Email: " + dataSnapshot.child("Email").getValue(String.class);
-                        String dateB = "Birthday: " + dataSnapshot.child("Date of Birth").getValue(String.class);
-                        String uAge = "Age: " + dataSnapshot.child("Age").getValue(Integer.class);
+                        String fullName = dataSnapshot.child("First Name").getValue(String.class)+ " " + dataSnapshot.child("Last Name").getValue(String.class);
+                        String eMail = dataSnapshot.child("Email").getValue(String.class);
+                        String dateB = dataSnapshot.child("Date of Birth").getValue(String.class);
+                        String uAge = "" + dataSnapshot.child("Age").getValue(Integer.class);
                         //setting textview to new values received from firebase database
                         uName.setText(fullName);
                         email.setText(eMail);
@@ -184,6 +184,8 @@ public class AccountActivity extends AppCompatActivity {
                             case R.id.upload:
                                 uploadImage(); //runs upload method
                                 return true;
+                            case R.id.edit:
+                                return true;
                             case R.id.logout:
                                 mAuth.signOut();//logs user out and brings them to login screen
                                 Intent go2Login = new Intent(AccountActivity.this, LoginActivity.class);
@@ -214,6 +216,11 @@ public class AccountActivity extends AppCompatActivity {
         dob = findViewById(R.id.birthday);
         age = findViewById(R.id.age);
 
+        //making edit text fields uneditable
+        uName.setKeyListener(null);
+        email.setKeyListener(null);
+        dob.setKeyListener(null);
+        age.setKeyListener(null);
         //creating bottom navigation
         nav = findViewById(R.id.navigation);
     }
