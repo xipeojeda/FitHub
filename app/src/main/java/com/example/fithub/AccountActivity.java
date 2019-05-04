@@ -243,9 +243,6 @@ public class AccountActivity extends AppCompatActivity {
                             case R.id.upload:
                                 uploadImage(); //runs upload method
                                 return true;
-                            case R.id.edit:
-
-                                return true;
                             case R.id.logout:
                                 mAuth.signOut();//logs user out and brings them to login screen
                                 Intent go2Login = new Intent(AccountActivity.this, LoginActivity.class);

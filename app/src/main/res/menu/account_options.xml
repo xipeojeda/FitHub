@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/upload"
-        android:title="Upload Image" />
-    <item android:id="@+id/edit"
-        android:title="Edit Profile"/>
+        android:title="@string/upload_image" />
     <item android:id="@+id/logout"
-                android:title="Logout" />
+                android:title="@string/logout" />
     <item android:id="@+id/delete"
-                android:title="Delete Account" />
+                android:title="@string/delete_account" />
 
 </menu>

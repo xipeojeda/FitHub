@@ -10,4 +10,26 @@
     <string name="log_details">Log Details</string>
     <string name="view_logged_workouts">View Logged Workouts</string>
     <string name="repetitions">Repetitions</string>
+    <string name="logout">Logout</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="email">Email</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="fithub">FitHub</string>
+    <string name="step_count">Step Count</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="register_new_account">Register new account</string>
+    <string name="age">Age</string>
+    <string name="mm_dd_yyyy">MM/DD/YYYY</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="fithub">FitHub</string>
 </resources>
