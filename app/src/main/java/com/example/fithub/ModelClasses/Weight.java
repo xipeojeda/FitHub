@@ -1,19 +1,21 @@
 package com.example.fithub.ModelClasses;
 
+import java.util.Date;
+
 public class Weight {
-    private String date;
+    private Date date;
     private double weight;
 
     public Weight()
     {}
 
-    public Weight(String d, double w)
+    public Weight(Date d, double w)
     {
         date=d;
         weight=w;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -21,7 +23,7 @@ public class Weight {
         this.weight = weight;
     }
 
-    public String getDate()
+    public Date getDate()
     {
         return date;
     }

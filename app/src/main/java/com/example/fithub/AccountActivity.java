@@ -13,6 +13,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class AccountActivity extends AppCompatActivity {
     private TextView email;
     private TextView dob;
     private TextView age;
+    private Button btnWeight;
     private  BottomNavigationView nav;
     private Uri filePath;
     private static int RESULT_LOAD_IMAGE = 72;
@@ -203,6 +205,16 @@ public class AccountActivity extends AppCompatActivity {
                 });
             }
         });
+        btnWeight.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccountActivity.this, GraphWeightActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     /*Initializes class variables and links them to xml
@@ -224,6 +236,8 @@ public class AccountActivity extends AppCompatActivity {
         age.setKeyListener(null);
         //creating bottom navigation
         nav = findViewById(R.id.navigation);
+
+        btnWeight = findViewById(R.id.btn_weight);
     }
     /*
         Starts new intent that calls startActivityFor result to allow the user to select an image
