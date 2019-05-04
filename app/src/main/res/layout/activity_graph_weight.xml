@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WeightLoggerActivity">
+    tools:context=".GraphWeightActivity">
 
     <Button
-        android:id="@+id/logBtn"
+        android:id="@+id/b_submit_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,15 +16,16 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Log Weight"
+        android:text="submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.406" />
+        app:layout_constraintVertical_bias="0.398" />
 
     <EditText
-        android:id="@+id/etDate"
+        android:id="@+id/et_updateWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -34,44 +35,27 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:inputType="date"
-        android:hint="Date"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/b_submit_weight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.114" />
-
-    <EditText
-        android:id="@+id/etWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:hint="Weight"
-        app:layout_constraintBottom_toTopOf="@+id/logBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDate" />
+        app:layout_constraintVertical_bias="0.657" />
 
     <com.jjoe64.graphview.GraphView
-        android:id="@+id/graph"
+        android:id="@+id/graphView"
         android:layout_width="match_parent"
-        android:layout_height="389dp"
+        android:layout_height="200dip"
+        android:layout_margin="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="19dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/b_submit_weight"
+        app:layout_constraintVertical_bias="0.616" />
 </android.support.constraint.ConstraintLayout>
