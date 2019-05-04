@@ -158,10 +158,10 @@ public class AccountActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                     {
                         //setting local variables to data from firebase database
-                        String fullName = dataSnapshot.child("First Name").getValue(String.class)+ " " + dataSnapshot.child("Last Name").getValue(String.class);
-                        String eMail = dataSnapshot.child("Email").getValue(String.class);
-                        String dateB = dataSnapshot.child("Date of Birth").getValue(String.class);
-                        String uAge = "" + dataSnapshot.child("Age").getValue(Integer.class);
+                        String fullName = "Name: " + dataSnapshot.child("First Name").getValue(String.class)+ " " + dataSnapshot.child("Last Name").getValue(String.class);
+                        String eMail = "Email: " + dataSnapshot.child("Email").getValue(String.class);
+                        String dateB = "Date of Birth: " + dataSnapshot.child("Date of Birth").getValue(String.class);
+                        String uAge = "Age: " + dataSnapshot.child("Age").getValue(Integer.class);
                         //setting textview to new values received from firebase database
                         uName.setText(fullName);
                         email.setText(eMail);
