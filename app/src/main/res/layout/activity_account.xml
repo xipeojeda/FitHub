@@ -49,18 +49,18 @@
                 android:layout_height="47dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="Email"
                 android:backgroundTint="@color/colorAccent"
+                android:hint="Email"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.666"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileImage"
-                app:layout_constraintVertical_bias="0.154" />
+                app:layout_constraintTop_toBottomOf="@+id/userName"
+                app:layout_constraintVertical_bias="0.0" />
 
 
             <ImageButton
@@ -92,12 +92,12 @@
                 android:id="@+id/age"
                 android:layout_width="366dp"
                 android:layout_height="47dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorAccent"
                 android:ems="10"
                 android:hint="Age"
-                android:backgroundTint="@color/colorAccent"
                 android:inputType="number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/birthday" />
@@ -112,16 +112,16 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/colorAccent"
                 android:ems="10"
                 android:hint="MM/DD/YYYY"
-                android:backgroundTint="@color/colorAccent"
                 android:inputType="date"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.333"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileImage"
-                app:layout_constraintVertical_bias="0.45" />
+                app:layout_constraintTop_toBottomOf="@+id/email"
+                app:layout_constraintVertical_bias="0.03" />
 
             <EditText
                 android:id="@+id/userName"

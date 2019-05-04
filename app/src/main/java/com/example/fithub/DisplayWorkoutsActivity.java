@@ -59,10 +59,8 @@ public class DisplayWorkoutsActivity extends AppCompatActivity {
             w.setType(ds.getValue(Workout.class).getType());
             w.setReps(ds.child("reps").getValue(Integer.class));
             String x = Integer.valueOf(w.getReps()).toString();
-            array.add(w.getDate());
-            array.add(w.getType());
-            array.add(w.getExercise());
-            array.add("Repetitions: " + x);
+            String userWDate = "Date: " + w.getDate() + ", Type: " + w.getType() + ", Exercise: " + w.getExercise() + ", Repetitions: " + x;
+            array.add(userWDate);
         }
 
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_expandable_list_item_1,array);
