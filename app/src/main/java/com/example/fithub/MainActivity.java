@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numSteps = 0;
+                numSteps = 0;//step counter
                 sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
                 Toast.makeText(MainActivity.this, "Step Counter Started", Toast.LENGTH_SHORT).show();
             }
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btnStop.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                myRef.push().setValue(numSteps);
+                myRef.push().setValue(numSteps);//pushes steps to firebase database
                 sensorManager.unregisterListener(MainActivity.this);
                 Toast.makeText(MainActivity.this, "Step Counter Stopped", Toast.LENGTH_SHORT).show();
 
@@ -85,14 +85,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch(menuItem.getItemId())
                 {
-                    case R.id.navigation_home:
+                    case R.id.navigation_home://home
                         break;
-                    case R.id.navigation_log:
+                    case R.id.navigation_log: //workout logger
                         Intent log = new Intent(MainActivity.this, WorkoutDetailsLogActivity.class);
                         startActivity(log);
                         overridePendingTransition(0, 0);
                         break;
-                    case R.id.navigation_account:
+                    case R.id.navigation_account: // account page
                         Intent acct = new Intent(MainActivity.this, AccountActivity.class);
                         startActivity(acct);
                         overridePendingTransition(0, 0);
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
+    //Takes account for steps and displays the counter
     public void step(long timeNs) {
         numSteps++;
         String stepDisplay = Integer.toString(numSteps);
