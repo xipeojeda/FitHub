@@ -49,9 +49,7 @@ public class DisplayWorkoutsActivity extends AppCompatActivity {
             }
         });
     }
-    /*
 
-     */
     private void showData(DataSnapshot dataSnapshot) {
         ArrayList<String> array = new ArrayList<>();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -64,7 +62,7 @@ public class DisplayWorkoutsActivity extends AppCompatActivity {
             array.add(w.getDate());
             array.add(w.getType());
             array.add(w.getExercise());
-           array.add("Repetitions: " + x);
+            array.add("Repetitions: " + x);
         }
 
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_expandable_list_item_1,array);

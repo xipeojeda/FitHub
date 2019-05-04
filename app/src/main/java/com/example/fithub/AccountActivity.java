@@ -185,6 +185,7 @@ public class AccountActivity extends AppCompatActivity {
                                 uploadImage(); //runs upload method
                                 return true;
                             case R.id.edit:
+
                                 return true;
                             case R.id.logout:
                                 mAuth.signOut();//logs user out and brings them to login screen

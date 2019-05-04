@@ -63,7 +63,7 @@ public class WorkoutDetailsLogActivity extends AppCompatActivity {
         });
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        myRef = db.getReference().child(user.getUid());
+        myRef = db.getReference();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
