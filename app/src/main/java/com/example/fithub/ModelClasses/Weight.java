@@ -4,7 +4,7 @@ package com.example.fithub.ModelClasses;
  * Class used to to input user info about weight. User will input current weight, and date recorded
  */
 public class Weight {
-    private Date date;
+    private String date;
     private double weight;
 
     /**

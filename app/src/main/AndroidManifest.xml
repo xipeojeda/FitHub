@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".WorkoutDetailsLogActivity" />
-        <activity android:name=".GraphWeightActivity" />
+        <activity android:name=".GraphWorkout" />
+        <activity android:name=".WeightLoggerActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".DisplayWorkoutsActivity"/>
         <activity android:name=".LoginActivity" />
