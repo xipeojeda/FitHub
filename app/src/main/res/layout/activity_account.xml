@@ -12,9 +12,9 @@
     <ImageView
         android:id="@+id/header_cover_image"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="centerCrop"
-        android:background="@color/cardview_dark_background" />
+        android:layout_height="214dp"
+        android:background="@color/cardview_dark_background"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -77,13 +77,13 @@
                 android:id="@+id/profileImage"
                 android:layout_width="106dp"
                 android:layout_height="144dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="45dp"
                 android:layout_marginBottom="8dp"
                 android:src="@drawable/fithub_logo"
                 app:civ_border_width="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
@@ -136,12 +136,13 @@
                 android:backgroundTint="@color/colorAccent"
                 android:hint="First Name"
                 android:inputType="textPersonName"
+                android:textColor="@android:color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profileImage"
-                app:layout_constraintVertical_bias="0.11" />
+                app:layout_constraintVertical_bias="0.037" />
 
         </android.support.constraint.ConstraintLayout>
 
